@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Weather Forecast</string>
+    <string name="search_cities_hint">Please, enter there city name</string>
+    <string name="request_error">Sorry, try again later</string>
+</resources>
