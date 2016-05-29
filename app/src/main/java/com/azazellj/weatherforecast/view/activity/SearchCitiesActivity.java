@@ -9,6 +9,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.azazellj.weatherforecast.R;
@@ -33,6 +34,8 @@ public class SearchCitiesActivity extends AppCompatActivity {
     public EditText mSearchCitiesField;
     @InjectView(R.id.searchCitiesRecycleView)
     public RecyclerView mSearchCitiesRecycleView;
+    @InjectView(R.id.loadingProgressBar)
+    public ProgressBar mLoadingProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,9 +72,18 @@ public class SearchCitiesActivity extends AppCompatActivity {
         mSearchCitiesRecycleView.setVisibility(View.VISIBLE);
     }
 
+    private void hideProgress() {
+        mLoadingProgressBar.setVisibility(View.INVISIBLE);
+    }
+
+    private void showProgress() {
+        if (mLoadingProgressBar.getVisibility() != View.VISIBLE)
+            mLoadingProgressBar.setVisibility(View.VISIBLE);
+    }
 
     private void getCitiesList(String search) {
         hideResults();
+        showProgress();
 
         new LocationAPI().getCitiesList(search, new Callback<CitiesResponseEntity>() {
             @Override
@@ -87,6 +99,8 @@ public class SearchCitiesActivity extends AppCompatActivity {
     }
 
     private void parseResponse(Response<CitiesResponseEntity> response) {
+        hideProgress();
+
         if (response == RESPONSE_EMPTY || !response.isSuccessful()) {
             Toast.makeText(this, R.string.request_error, Toast.LENGTH_SHORT).show();
             return;

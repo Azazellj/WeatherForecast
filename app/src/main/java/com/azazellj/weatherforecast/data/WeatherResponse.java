@@ -1,11 +1,11 @@
 package com.azazellj.weatherforecast.data;
 
+import com.azazellj.weatherforecast.Constants;
 import com.google.gson.annotations.SerializedName;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
 /**
  * Created by azazellj on 29.05.16.
@@ -286,9 +286,8 @@ public class WeatherResponse {
         }
 
         public String getSunriseString() {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-            return sdf.format(new Date(sunrise));
+            Date time = new Date((long) sunrise * 1000);
+            return new SimpleDateFormat(Constants.FORMAT_TIME).format(time);
         }
 
         public void setSunrise(int sunrise) {
@@ -300,9 +299,8 @@ public class WeatherResponse {
         }
 
         public String getSunsetString() {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-            return sdf.format(new Date(sunset));
+            Date time = new Date((long) sunset * 1000);
+            return new SimpleDateFormat(Constants.FORMAT_TIME).format(time);
         }
 
         public void setSunset(int sunset) {

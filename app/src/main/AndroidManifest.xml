@@ -23,9 +23,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".view.activity.MapActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity android:name=".view.activity.SearchCitiesActivity"></activity>
     </application>
 

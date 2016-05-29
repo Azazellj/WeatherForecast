@@ -4,6 +4,7 @@ import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.azazellj.weatherforecast.BR;
 import com.azazellj.weatherforecast.R;
@@ -48,21 +49,19 @@ public class CitiesListAdapter extends BaseAdapter<CitiesResponseEntity.Predicti
         new LocationAPI().getCityDetails(placeID, new Callback<CityInfoEntity>() {
             @Override
             public void onResponse(Call<CityInfoEntity> call, Response<CityInfoEntity> response) {
-
                 parseResponse(response, binding);
-
             }
 
             @Override
             public void onFailure(Call<CityInfoEntity> call, Throwable t) {
-
+                parseResponse(RESPONSE_EMPTY, binding);
             }
         });
     }
 
     private void parseResponse(Response<CityInfoEntity> response, ViewDataBinding binding) {
         if (response == RESPONSE_EMPTY || !response.isSuccessful()) {
-//            Toast.makeText(this, R.string.request_error, Toast.LENGTH_SHORT).show();
+            Toast.makeText(binding.getRoot().getContext(), R.string.request_error, Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -70,12 +69,11 @@ public class CitiesListAdapter extends BaseAdapter<CitiesResponseEntity.Predicti
         List<CityInfoEntity.Result.Photos> photos = cityInfo.getResult().getPhotos();
         boolean isPhotoAvailable = photos != null && !photos.isEmpty();
 
-
         binding.setVariable(BR.showLoaders, false);
         binding.setVariable(BR.location, cityInfo.getResult().getGeometry().getLocation());
+        binding.setVariable(BR.isPhotoAvailable, isPhotoAvailable);
 
         if (isPhotoAvailable) {
-            binding.setVariable(BR.isPhotoAvailable, isPhotoAvailable);
             binding.setVariable(BR.imagePath, photos.get(0).getPhotoReference());
         }
 

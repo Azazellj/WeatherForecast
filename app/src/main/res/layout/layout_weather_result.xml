@@ -35,74 +35,87 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp">
+            android:layout_marginLeft="16dp"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
                     android:text="@{weatherTitle.main}"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:gravity="left|center" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{weatherTitle.description}"
-                    android:textSize="12sp" />
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:scaleType="fitStart"
+                    app:imageWeather="@{weatherTitle.icon}"
+                    android:layout_marginLeft="6dp" />
+
+
             </LinearLayout>
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="6dp"
-                android:scaleType="fitStart"
-                app:imageWeather="@{weatherTitle.icon}" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{weatherTitle.description}"
+                android:textSize="12sp" />
 
         </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
             android:text='@{"Temp " + weather.main.temp}' />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
             android:text='@{"Presure " + weather.main.pressure}' />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
             android:text='@{"Humidity " + weather.main.humidity}' />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
             android:text='@{"Min Temp " + weather.main.tempMin}' />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
             android:text='@{"Max Temp " + weather.main.tempMax}' />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text='@{"MWind speed " + weather.wind.speed}' />
+            android:layout_marginLeft="16dp"
+            android:text='@{"Wind speed " + weather.wind.speed}' />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
             android:text='@{"Sunrise " + weather.sys.sunriseString}' />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
             android:text='@{"Sunset " + weather.sys.sunsetString}' />
 
 

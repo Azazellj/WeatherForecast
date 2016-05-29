@@ -5,13 +5,22 @@
     android:layout_height="match_parent"
     tools:context="com.azazellj.weatherforecast.view.activity.SearchCitiesActivity">
 
+    <ProgressBar
+        style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+        android:visibility="invisible"
+        android:indeterminate="true"
+        android:id="@+id/loadingProgressBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <android.support.design.widget.TextInputLayout
+        android:layout_below="@+id/loadingProgressBar"
         android:id="@+id/searchCitiesFieldLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="16dp">
+        android:paddingRight="@dimen/activity_horizontal_margin">
 
         <EditText
             android:id="@+id/searchCitiesField"

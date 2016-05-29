@@ -12,6 +12,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.widget.Toast;
 
 import com.azazellj.weatherforecast.data.WeatherResponse;
 import com.azazellj.weatherforecast.network.weather.WeatherAPI;
@@ -45,14 +46,12 @@ public class MainActivity extends AppCompatActivity
 
     public static final String KEY_LATITUDE = "latitude";
     public static final String KEY_LONGITUDE = "longitude";
-    public static final String KEY_GEO = "geo";
 
     private static final int TAB_CUSTOM = 0;
     private static final int TAB_GEO = 1;
     private static final int TAB_SEARCH = 2;
 
     private static final int CODE_SEARCH = 100;
-
 
     private double latitude = Constants.POSITION_UNKNOWN;
     private double longitude = Constants.POSITION_UNKNOWN;
@@ -71,13 +70,10 @@ public class MainActivity extends AppCompatActivity
     private Marker mMarker;
     private GoogleMap mGoogleMap;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
         ButterKnife.inject(this);
 
         setSupportActionBar(mToolBar);
@@ -93,37 +89,29 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void getWeather() {
+        if (getMarker() == null) {
+            Toast.makeText(getBaseContext(), R.string.choose_location, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         new WeatherAPI().getWeather(getMarker().getPosition().latitude, getMarker().getPosition().longitude,
                 new Callback<WeatherResponse>() {
                     @Override
                     public void onResponse(Call<WeatherResponse> call, Response<WeatherResponse> response) {
-
-
-                        String sss = "";
-
-
                         WeatherDialog weatherDialog = new WeatherDialog();
                         weatherDialog.setWeather(response.body());
-
                         weatherDialog.show(getFragmentManager(), weatherDialog.getTag());
-
-
                     }
 
                     @Override
                     public void onFailure(Call<WeatherResponse> call, Throwable t) {
-
-
-                        String sss = "";
+                        Toast.makeText(getBaseContext(), R.string.request_error, Toast.LENGTH_SHORT).show();
                     }
                 });
     }
 
-
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
-
-
         switch (tab.getPosition()) {
             case TAB_GEO:
                 initLocationListener();
@@ -137,7 +125,6 @@ public class MainActivity extends AppCompatActivity
                 break;
         }
     }
-
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -188,6 +175,7 @@ public class MainActivity extends AppCompatActivity
 
         if (location != null) {
             setMarker(new LatLng(location.getLatitude(), location.getLongitude()));
+            getMarker().setVisible(false);
         }
     }
 
@@ -219,6 +207,7 @@ public class MainActivity extends AppCompatActivity
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, mLocationListener);
         } else {
             setMarker(new LatLng(location.getLatitude(), location.getLongitude()));
+            getMarker().setVisible(false);
         }
     }
 
@@ -231,6 +220,7 @@ public class MainActivity extends AppCompatActivity
             longitude = data.getDoubleExtra(KEY_LONGITUDE, Constants.POSITION_UNKNOWN);
 
             setMarker(new LatLng(latitude, longitude));
+            getWeather();
         }
 
 
@@ -280,6 +270,7 @@ public class MainActivity extends AppCompatActivity
     public void onMapLongClick(LatLng latLng) {
         setTab(TAB_CUSTOM);
         setMarker(latLng);
+        getWeather();
     }
 
     @Override
