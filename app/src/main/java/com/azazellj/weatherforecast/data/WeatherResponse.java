@@ -2,7 +2,10 @@ package com.azazellj.weatherforecast.data;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 /**
  * Created by azazellj on 29.05.16.
@@ -282,12 +285,24 @@ public class WeatherResponse {
             return sunrise;
         }
 
+        public String getSunriseString() {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+            return sdf.format(new Date(sunrise));
+        }
+
         public void setSunrise(int sunrise) {
             this.sunrise = sunrise;
         }
 
         public int getSunset() {
             return sunset;
+        }
+
+        public String getSunsetString() {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+            return sdf.format(new Date(sunset));
         }
 
         public void setSunset(int sunset) {

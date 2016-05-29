@@ -9,7 +9,6 @@ import android.widget.ImageView;
 
 import com.azazellj.weatherforecast.Constants;
 import com.azazellj.weatherforecast.MainActivity;
-import com.azazellj.weatherforecast.data.CityInfoEntity;
 import com.azazellj.weatherforecast.network.location.LocationHttpClient;
 import com.azazellj.weatherforecast.utils.AppUtils;
 import com.azazellj.weatherforecast.view.activity.SearchCitiesActivity;
@@ -17,7 +16,6 @@ import com.jakewharton.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 
 import okhttp3.OkHttpClient;
-import retrofit2.Response;
 
 /**
  * Created by azazellj on 12.04.16.
@@ -26,8 +24,6 @@ import retrofit2.Response;
 
 @SuppressWarnings("unused")
 public class BindingAdapters {
-    private static final Response<CityInfoEntity> RESPONSE_EMPTY = null;
-
     @BindingAdapter("imageUrl")
     public static void loadImage(ImageView imageView, String imageReference) {
         if (imageReference == null) return;
@@ -46,6 +42,15 @@ public class BindingAdapters {
         picasso.load("https://maps.googleapis.com/maps/api/place/photo").into(imageView);
     }
 
+    @BindingAdapter("imageWeather")
+    public static void loadImageWeather(ImageView imageView, String imageName) {
+        if (imageName == null) return;
+
+        Log.d("loadImage", imageName);
+
+        Picasso.with(imageView.getContext()).load(String.format("http://openweathermap.org/img/w/%s.png", imageName)).into(imageView);
+    }
+
     @BindingAdapter({"bind:lat", "bind:lng"})
     public static void shortClick(View view, double lat, double lng) {
         view.setOnClickListener(v -> startMapActivity(view, lat, lng));
@@ -61,7 +66,5 @@ public class BindingAdapters {
 
         activity.setResult(Activity.RESULT_OK, resultIntent);
         activity.finish();
-
-//        view.getContext().startActivity(resultIntent);
     }
 }

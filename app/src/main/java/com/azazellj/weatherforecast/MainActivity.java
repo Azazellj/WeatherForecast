@@ -16,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import com.azazellj.weatherforecast.data.WeatherResponse;
 import com.azazellj.weatherforecast.network.weather.WeatherAPI;
 import com.azazellj.weatherforecast.view.activity.SearchCitiesActivity;
+import com.azazellj.weatherforecast.view.dialog.WeatherDialog;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -99,6 +100,14 @@ public class MainActivity extends AppCompatActivity
 
 
                         String sss = "";
+
+
+                        WeatherDialog weatherDialog = new WeatherDialog();
+                        weatherDialog.setWeather(response.body());
+
+                        weatherDialog.show(getFragmentManager(), weatherDialog.getTag());
+
+
                     }
 
                     @Override
